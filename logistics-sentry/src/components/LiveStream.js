@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 import { motion, AnimatePresence } from "framer-motion";
 
-export function LiveStream({ events, isRunning, currentPhase }) {
+export function LiveStream({ events = [], isRunning, currentPhase }) {
     const scrollRef = useRef(null);
 
     const phases = [

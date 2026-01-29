@@ -30,7 +30,7 @@ export function MetricCard({ title, value, subtitle, icon: Icon, trend, variant 
                     "p-2 rounded-lg bg-background border border-primary/10 shadow-sm",
                     iconColors[variant]
                 )}>
-                    <Icon className="h-5 w-5" />
+                    {Icon && <Icon className="h-5 w-5" />}
                 </div>
             </div>
             <div className="flex items-center gap-2">

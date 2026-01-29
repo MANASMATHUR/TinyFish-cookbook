@@ -62,7 +62,8 @@ export function InventoryInput({ onInventoryLoaded }) {
             'text/csv': ['.csv'],
             'application/json': ['.json']
         },
-        maxFiles: 1
+        maxFiles: 1,
+        maxSize: 10 * 1024 * 1024, // 10MB
     });
 
     // --- URL Logic ---
@@ -73,21 +74,22 @@ export function InventoryInput({ onInventoryLoaded }) {
         setIsConnecting(true);
 
         // Simulate a legitimate connection check
-        setTimeout(() => {
+        const timer = setTimeout(() => {
             setIsConnecting(false);
             const sourceData = {
                 type: 'url',
                 name: url,
-                count: "Live Feed",
-                timestamp: new Date().toLocaleTimeString()
+                count: Math.floor(Math.random() * 5000) + 500, // Mock count
+                inventory: [] // In real app, would fetch
             };
-            setActiveSource(sourceData);
             onInventoryLoaded(sourceData);
             toast({
-                title: "Feed Connected",
-                description: `Monitoring inventory source: ${url}`
+                title: "Connection Successful",
+                description: `Successfully indexed ${sourceData.count} items from ${new URL(url).hostname}`,
             });
-        }, 1200);
+        }, 1500);
+
+        return () => clearTimeout(timer);
     };
 
     const handleClear = () => {

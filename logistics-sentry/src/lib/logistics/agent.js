@@ -284,7 +284,7 @@ function synthesizeRisk(context, findings) {
                 if (s.severity !== "LOW") {
                     // Try to infer cause from summary keywords
                     const text = s.summary.toLowerCase();
-                    if (text.includes("congestion") || text.includes("anchor") || text.includes("dweel")) primaryCauses.add("CONGESTION");
+                    if (text.includes("congestion") || text.includes("anchor") || text.includes("dwell")) primaryCauses.add("CONGESTION");
                     if (text.includes("strike") || text.includes("labor") || text.includes("union")) primaryCauses.add("LABOR");
                     if (text.includes("weather") || text.includes("storm") || text.includes("fog") || text.includes("wind")) primaryCauses.add("WEATHER");
                     if (text.includes("maintenance") || text.includes("outage")) primaryCauses.add("TECHNICAL");

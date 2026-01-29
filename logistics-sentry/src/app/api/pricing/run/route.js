@@ -57,6 +57,8 @@ export async function POST(req) {
             };
         };
 
+        const agentControllers = new Map();
+
         const stream = new ReadableStream({
             async start(controller) {
                 const sendEvent = (data) => {
@@ -69,12 +71,16 @@ export async function POST(req) {
 
                 // Run all agents in parallel
                 const agentPromises = urls.map(async (url) => {
-                    try {
-                        const controller = new AbortController();
-                        const timeoutId = setTimeout(() => controller.abort(), 35000);
-                        const startedAt = Date.now();
+                    const agentController = new AbortController();
+                    agentControllers.set(url, agentController);
+                    const timeoutId = setTimeout(() => agentController.abort(), 35000);
+                    const startedAt = Date.now();
 
-                        const agentStream = await runPricingAnalysis(url, { signal: controller.signal });
+                    try {
+                        const agentStream = await runPricingAnalysis(url, { signal: agentController.signal });
+                        if (!agentStream) {
+                            throw new Error("TinyFish response missing body stream");
+                        }
                         const reader = agentStream.getReader();
                         const parse = createSseParser((originalData) => {
                             if (originalData.final_result) {
@@ -98,7 +104,6 @@ export async function POST(req) {
                             const chunk = decoder.decode(value, { stream: true });
                             parse(chunk);
                         }
-                        clearTimeout(timeoutId);
                     } catch (err) {
                         console.error(`Error processing ${url}:`, err);
                         sendEvent({
@@ -106,6 +111,9 @@ export async function POST(req) {
                             competitor_url: url,
                             message: `Failed to analyze ${url}: ${err.message}`
                         });
+                    } finally {
+                        clearTimeout(timeoutId);
+                        agentControllers.delete(url);
                     }
                 });
 
@@ -114,6 +122,11 @@ export async function POST(req) {
 
                 sendEvent({ type: "done", message: "All parallel tasks completed." });
                 controller.close();
+            },
+            cancel() {
+                for (const controller of agentControllers.values()) {
+                    controller.abort();
+                }
             }
         });
 

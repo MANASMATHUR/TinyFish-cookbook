@@ -1,9 +1,10 @@
+"use client";
+
 import {
     CheckCircle2,
     PauseCircle,
     AlertTriangle,
-    RotateCcw,
-    MousePointer2
+    RotateCcw
 } from "lucide-react";
 
 export function ActionPanel({ pendingActions, onProceed, onPause, onEscalate, onReset }) {
@@ -22,28 +23,28 @@ export function ActionPanel({ pendingActions, onProceed, onPause, onEscalate, on
 
             <div className="grid grid-cols-2 gap-2">
                 <button
-                    onClick={onProceed}
+                    onClick={() => onProceed?.(pendingActions)}
                     className="p-3 bg-success/10 border border-success/20 hover:bg-success/20 rounded-xl transition-all group flex flex-col items-center gap-2"
                 >
                     <CheckCircle2 className="h-5 w-5 text-success group-hover:scale-110 transition-transform" />
                     <span className="text-[10px] font-black uppercase tracking-widest text-success">Proceed All</span>
                 </button>
                 <button
-                    onClick={onPause}
+                    onClick={() => onPause?.()}
                     className="p-3 bg-warning/10 border border-warning/20 hover:bg-warning/20 rounded-xl transition-all group flex flex-col items-center gap-2"
                 >
                     <PauseCircle className="h-5 w-5 text-warning group-hover:scale-110 transition-transform" />
                     <span className="text-[10px] font-black uppercase tracking-widest text-warning">Pause All</span>
                 </button>
                 <button
-                    onClick={onEscalate}
+                    onClick={() => onEscalate?.()}
                     className="p-3 bg-destructive/10 border border-destructive/20 hover:bg-destructive/20 rounded-xl transition-all group flex flex-col items-center gap-2"
                 >
                     <AlertTriangle className="h-5 w-5 text-destructive group-hover:scale-110 transition-transform" />
                     <span className="text-[10px] font-black uppercase tracking-widest text-destructive">Escalate</span>
                 </button>
                 <button
-                    onClick={onReset}
+                    onClick={() => onReset?.()}
                     className="p-3 bg-white/5 border border-white/10 hover:bg-white/10 rounded-xl transition-all group flex flex-col items-center gap-2"
                 >
                     <RotateCcw className="h-5 w-5 text-muted-foreground group-hover:rotate-180 transition-transform duration-500" />

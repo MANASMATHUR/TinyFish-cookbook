@@ -94,19 +94,19 @@ export function InventoryAlert({
 
                 <div className="pl-14 flex items-center gap-2 pt-2">
                     <button
-                        onClick={() => onProceed(id)}
+                        onClick={() => onProceed?.(id)}
                         className="flex-1 bg-success hover:bg-success/90 text-white font-black py-2.5 rounded-lg flex items-center justify-center gap-2 transition-all shadow-lg shadow-success/20 active:scale-95 text-xs uppercase"
                     >
                         <Check className="h-4 w-4" /> Proceed
                     </button>
                     <button
-                        onClick={() => onPause(id)}
+                        onClick={() => onPause?.(id)}
                         className="flex-1 bg-warning hover:bg-warning/90 text-white font-black py-2.5 rounded-lg flex items-center justify-center gap-2 transition-all shadow-lg shadow-warning/20 active:scale-95 text-xs uppercase"
                     >
                         <Pause className="h-4 w-4" /> Pause
                     </button>
                     <button
-                        onClick={() => onEscalate(id)}
+                        onClick={() => onEscalate?.(id)}
                         className="flex-1 bg-destructive hover:bg-destructive/90 text-white font-black py-2.5 rounded-lg flex items-center justify-center gap-2 transition-all shadow-lg shadow-destructive/20 active:scale-95 text-xs uppercase"
                     >
                         <ShieldAlert className="h-4 w-4" /> Escalate

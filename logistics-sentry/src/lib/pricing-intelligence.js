@@ -4,6 +4,9 @@ const TINYFISH_API_URL = "https://tinyfish.ai/v1/automation/run-sse";
 const TINYFISH_API_KEY = process.env.TINYFISH_API_KEY;
 
 export async function runPricingAnalysis(competitorUrl, options = {}) {
+  if (!TINYFISH_API_KEY) throw new Error("Missing TINYFISH_API_KEY environment variable");
+  if (!competitorUrl) throw new Error("Missing competitorUrl");
+
   const goal = `
 ### MISSION: COMPETITIVE PRICING INTELLIGENCE (Target: ${competitorUrl})
 

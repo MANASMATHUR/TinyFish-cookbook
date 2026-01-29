@@ -94,11 +94,11 @@ export default function LogisticsDashboard() {
         e.preventDefault();
         setIsRunning(true);
         setResult(null);
-        toast({ title: "Initiating Network Scan", description: `Checking status for ${origin} / ${carrier}...` });
-
         try {
             const finalOrigin = isCustomOrigin ? customOrigin : origin;
             const finalCarrier = isCustomCarrier ? customCarrier : carrier;
+
+            toast({ title: "Initiating Network Scan", description: `Checking status for ${finalOrigin} / ${finalCarrier}...` });
 
             const response = await fetch("/api/logistics/risk-assessment", {
                 method: "POST",

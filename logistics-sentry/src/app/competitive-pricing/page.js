@@ -306,9 +306,13 @@ export default function PricingIntelligence() {
                                     <div className="p-3 rounded-xl border border-success/20 bg-success/5">
                                         <p className="text-[10px] font-bold text-success uppercase">Win Rate</p>
                                         <p className="text-lg font-bold">
-                                            {competitors.filter(c => c.standing === "CHEAPER").length > 0
-                                                ? `${Math.round((competitors.filter(c => c.standing === "CHEAPER").length / competitors.filter(c => c.status === "completed").length) * 100)}%`
-                                                : "--"}
+                                            {(() => {
+                                                const completedCount = competitors.filter(c => c.status === "completed").length;
+                                                const cheaperCount = competitors.filter(c => c.standing === "CHEAPER").length;
+                                                return completedCount > 0
+                                                    ? `${Math.round((cheaperCount / completedCount) * 100)}%`
+                                                    : "--";
+                                            })()}
                                         </p>
                                     </div>
                                     <div className="p-3 rounded-xl border border-info/20 bg-info/5">

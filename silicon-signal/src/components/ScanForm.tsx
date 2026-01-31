@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 import { Search, Loader2 } from 'lucide-react';
 
 interface ScanFormProps {
@@ -20,7 +20,7 @@ export function ScanForm({ onScan, isLoading }: ScanFormProps) {
     const [part, setPart] = useState('');
     const [mfr, setMfr] = useState('');
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (part) onScan(part, mfr);
     };

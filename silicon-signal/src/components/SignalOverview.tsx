@@ -13,7 +13,7 @@ export default function SignalOverview({ result }: { result: ScanResult | null }
             <div className="flex justify-between items-center mb-6">
                 <h3 className="heading-technical tracking-widest text-[10px]">REAL-TIME METRICS</h3>
                 <span className={clsx("flex items-center gap-2 text-[10px] animate-pulse", result ? "text-accent" : "text-foreground-subtle")}>
-                    <div className={clsx("w-1.5 h-1.5 rounded-full", result ? "bg-accent" : "bg-border")} />
+                    <span className={clsx("w-1.5 h-1.5 rounded-full", result ? "bg-accent" : "bg-border")} />
                     {result ? "LIVE TELEMETRY" : "SYSTEM IDLE"}
                 </span>
             </div>

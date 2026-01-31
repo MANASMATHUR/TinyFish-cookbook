@@ -2,64 +2,8 @@ import { NextResponse } from 'next/server';
 import puppeteer from 'puppeteer';
 import type { Browser } from 'puppeteer';
 import { saveSnapshot, getLastSnapshot, getHistory, HistoricalSnapshot } from '@/lib/store';
+import type { ConfidenceInfo, RiskAnalysis, ScanResult, SignalSummary, SourceSignal } from '../../../types';
 
-interface RiskAnalysis {
-    score: number;
-    level: string;
-    reasoning: string;
-}
-
-interface ScanResult {
-    part_number: string;
-    manufacturer: string;
-    lifecycle_status: string;
-    lead_time_weeks?: number;
-    lead_time_days?: number;
-    moq?: number;
-    availability?: string;
-    timestamp: string;
-    last_time_buy_date?: string;
-    pcn_summary?: string;
-    risk: RiskAnalysis;
-    evidence_links: string[];
-    price_estimate?: string;
-    sources?: string[];
-    sources_checked?: string[];
-    sources_blocked?: string[];
-    source_signals?: SourceSignal[];
-    signals?: SignalSummary;
-    confidence?: ConfidenceInfo;
-    scanned_at?: string;
-    scan_duration_ms?: number;
-    scan_timed_out?: boolean;
-    agent_logs?: string[];
-    history?: { timestamp: string; score: number }[];
-}
-
-interface SourceSignal {
-    name: string;
-    url: string;
-    ok: boolean;
-    blocked: boolean;
-    availability?: string;
-    lifecycle_status?: string;
-    lead_time_weeks?: number;
-    price_estimate?: string;
-}
-
-interface SignalSummary {
-    availability: string;
-    lifecycle_status: string;
-    lead_time_weeks?: number;
-    price_estimate?: string;
-}
-
-interface ConfidenceInfo {
-    score: number;
-    level: string;
-    sources: number;
-    signals: number;
-}
 
 interface ParsedSignals {
     availability?: string;
@@ -548,7 +492,7 @@ export async function POST(request: Request) {
         if (part_number.length > 64) {
             return NextResponse.json({ error: "Part number too long" }, { status: 400 });
         }
-        if (!/^[A-Za-z0-9._/+\\-]+$/.test(part_number)) {
+        if (!/^[A-Za-z0-9._/+-]+$/.test(part_number)) {
             return NextResponse.json({ error: "Part number contains invalid characters" }, { status: 400 });
         }
 
